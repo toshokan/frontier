@@ -11,9 +11,9 @@ The following environment variables must be set:
 1. `AUTH_ENDPOINT` should be set to the URL of your IdP's authorization endpoint, for example: `https://id.ctf.mcgill.ca/oauth/v1/authorize`.
 1. `TOKEN_ENDPOINT` should be set to the URL of your IdP's token endpoint, for example: `https://id.ctf.mcgill.ca/oauth/v1/token`.
 1. `USER_INFO_ENDPOINT` should be set to the URL of your IdP's token endpoint, for example: `https://identity.ctf.mcgill.ca/userinfo`.
-1. `SCOPES` should be set to a space-delimited list of scopes that will be requested with the authorization grnat, for example: `email`.
+1. `SCOPES` should be set to a space-delimited list of scopes that will be requested with the authorization grant, for example: `email`.
 1. `BASE_URL` should be set to the base URL this service (and the backend it protects) will be externally reachable at, for example: `https://docs.int.ctf.mcgill.ca`. 
-1. `PRIVATE_KEY_PATH` should be set to a path on the filesystem to a PEM-encoded RSA key for encrypting sessoin cookies, for example: `/frontier/key.pem`. 
+1. `PRIVATE_KEY_PATH` should be set to a path on the filesystem to a PEM-encoded RSA key for encrypting session cookies, for example: `/frontier/key.pem`. 
 
 The application will expose an HTTP service on TCP port 8000 on all interfaces.
 
@@ -43,4 +43,4 @@ GET /frontier/oauth/callback
 
 ## License
 
-This application is licened under the MIT license.
+This application is licensed under the MIT license.

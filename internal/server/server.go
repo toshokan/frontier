@@ -111,6 +111,7 @@ func authHandler(cfg *config.Config) http.HandlerFunc {
 
 			// Everything is fine
 			log.Printf("%s Authentication OK", rid)
+			w.Header().Set("Frontier-Subject", cookie.Subject)
 			w.WriteHeader(http.StatusOK)
 			return
 		}

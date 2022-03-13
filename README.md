@@ -25,7 +25,7 @@ When a request reaches nginx to access a backend, nginx should be configured to 
 
 This application will check whether the received headers suggest that a user has already authenticated to visit that backend (by inspecting the existence/contents of a `Frontier-Session` cookie in the request). 
 
-If the request is properly authenticated, this service will return `200 OK`, which nginx's `auth_request` module can interpret as meaning it should proxy the original request to the backend. 
+If the request is properly authenticated, this service will return `200 OK`, which nginx's `auth_request` module can interpret as meaning it should proxy the original request to the backend. Alongside the `200 OK`, a `Frontier-Subject` header will be present in the response containing the subject of the user that authenticated, which can be forwarded to the backend if needed. **Note that if you use this header, you should make sure it can only be set by this application, for example by clearing it before the `auth_request`)**.
 
 If the request is not properly authenticated, this service will return `401 Unauthorized` with `Frontier-Redirect` in the `WWW-Authenticate` header. nginx should not proxy the original request to the backend, but instead redirect the requestor to the URI in the `Frontier-Redirect` header from the 401 response. 
 This will direct the user to the IdP to confirm authentication and authorization. If all goes well, after the authentication/authorization action, the IdP will redirect the user back to this application. After verifying that the authentication was valid, this application will generate a session cookie and send it with a `303 See Other` for the original location the user was trying to access (back to nginx).

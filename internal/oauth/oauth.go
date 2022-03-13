@@ -11,6 +11,7 @@ import (
 	"github.com/toshokan/frontier/internal/security"
 	"net/http"
 	"net/url"
+	"log"
 )
 
 const (
@@ -46,6 +47,7 @@ func NewAuthHandle(cfg *config.Config) *AuthHandle {
 }
 
 func NewPkceChallenge() (*PkceChallenge, error) {
+	log.Printf("Issuing new PKCE challenge")
 	b := make([]byte, 66)
 	_, err := rand.Read(b)
 	if err != nil {

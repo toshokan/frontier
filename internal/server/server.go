@@ -70,6 +70,7 @@ func performAuthenticationRedirect(authHandle *oauth.AuthHandle, w http.Response
 	var rid = r.Context().Value(RequestId)
 	
 	originalUrl := r.Header.Get("Frontier-Original-Url")
+
 	authUrl, err := authHandle.GetAuthorizationRequestUrl(originalUrl, callbackPath)
 	if err != nil {
 		log.Printf("%s Failed to build AuthorizationRequest. err = %s", rid, err)
@@ -148,6 +149,7 @@ func authCallback(cfg *config.Config) http.HandlerFunc {
 		var cookie http.Cookie
 		cookie.Name = cookieName
 		cookie.Value = cookieValue
+		cookie.Path = "/"
 		http.SetCookie(w, &cookie)
 
 		log.Printf("%s Redirecting to original URL = %s Subject = %s", rid, state.OriginalUrl, info.Subject)

@@ -41,6 +41,45 @@ GET /frontier/checkAuth
 GET /frontier/oauth/callback
 ```
 
+## Example nginx Config
+
+```
+server {
+  listen 80;
+
+  location /frontier/checkAuth {
+    internal;
+    
+    proxy_pass_request_body off;
+    proxy_set_header Content-Length "";
+    proxy_set_header Frontier-Original-Url $request_uri;
+
+    proxy_pass http://frontier-service:8000;
+  }
+
+  location @frontier-redirect {
+    return 303 $frontier_location;
+  }
+
+  location /frontier/oauth/callback {
+    proxy_pass http://frontier-service:8000;
+  }
+  
+  location / {
+    auth_request /frontier/checkAuth;
+    auth_request_set $frontier_location "$upstream_http_frontier_location";
+    auth_request_set $frontier_subject "$upstream_http_frontier_subject";
+    
+    error_page 401 @frontier-redirect;
+    
+    add_header Frontier-Subject $frontier_subject;
+    
+    proxy_pass http://protected-backend-service:80;
+  }
+}
+
+```
+
 ## License
 
 This application is licensed under the MIT license.
